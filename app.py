@@ -78,10 +78,10 @@ def precipitation():
 def station(): 
     #create session
     session = Session(engine)
-    """Return a list of stations from the database""" 
-    station_query_results = session.query(Station.station,Station.id).all()
 
+    station_query_results = session.query(Station.station,Station.id).all()
     session.close()  
+
     stations_values = []
     for station, id in station_query_results:
         stations_values_dict = {}
@@ -89,3 +89,32 @@ def station():
         stations_values_dict['id'] = id
         stations_values.append(stations_values_dict)
     return jsonify (stations_values) 
+
+@app.route("/api/v1.0/tobs")
+def tobs():
+    #creaet session
+    session = Session(engine)
+    
+    #query the last 12 months temperature for most active station (USC00519281)
+    start_date = '2016-08-23'
+    sel = [Measurement.date, 
+           Measurement.tobs]
+    station_temps = session.query(*sel).\
+        # check if station name is same as jupyter notebook name
+        filter(Measurement.date >= start_date, Measurement.station == 'USC00519281').\
+        group_by(Measurement.date).\
+        order_by(Measurement.date).all()
+    
+    session.close()
+
+    # return a dict with date as key and daily tobs as value
+    observation_dates = []
+    temperature_observations = []
+
+    for date, observation in station_temps:
+        observation_dates.append(date)
+        temperature_observations.append(observation)
+    
+    most_active_tobs_dict = dict(zip(observation_dates, temperature_observations))
+
+    return jsonify(most_active_tobs_dict)
