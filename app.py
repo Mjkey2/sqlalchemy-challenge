@@ -54,5 +54,7 @@ def welcome():
 def precipitation():
     # Create our session (link) from Python to the DB
     session = Session(engine)
-
-    """Return a list of all daily precipitation totals for the last year"""
+    
+    sel = [Measurement.date,Measurement.prcp]
+    queryresult = session.query(*sel).all()
+    session.close()
