@@ -1,3 +1,8 @@
+################################################
+#THIS IS A MJ REMINDER
+#RENAME ALL VARIABLES TO MJIFY THEM
+################################################
+
 # Import the dependencies.
 import numpy as np
 import datetime as dt
@@ -43,15 +48,15 @@ app = Flask(__name__)
 #precipitation                              CHECK
     #convert query results from precipitation analysis to a dictionary using date as the key and prcp as the value
     #return json representation of the dictionary
-#stations
+#stations                                   CHECK
     #return JSON list of stations from the dataset
-#tobs
+#tobs                                       CHECK
     #query the dates and temperature observations of the most active station (USC00519281) from previous year (12 months) of date
     #return a JSON list of temperature observaitions for the previous year (12 months)
-#<start> (SPECIFIED START)
+#<start> (SPECIFIED START)                  CHECK
     #return a json list of MINIMUM TEMPERATURE, the AVERAGE TEMPERATURE, and MAXIMUM TEMPERTURE for specified start or start-end ranges
     #For a specified start, calculate TMIN, TAVG, and TMAX for all the dates greater than or equal to the start date.
-#<start>/<end> (SPECIFIED START AND END)
+#<start>/<end> (SPECIFIED START AND END)    CHECK
     #return a json list of MINIMUM TEMPERATURE, the AVERAGE TEMPERATURE, and MAXIMUM TEMPERTURE for specified start or start-end ranges
     #For a specified start date and end date, calculate TMIN, TAVG, and TMAX for the dates from the start date to the end date, inclusive
 
@@ -133,9 +138,9 @@ def tobs():
         observation_dates.append(date)
         temperature_observations.append(observation)
     
-    most_active_tobs_dict = dict(zip(observation_dates, temperature_observations))
+    most_active_dict = dict(zip(observation_dates, temperature_observations))
 
-    return jsonify(most_active_tobs_dict)
+    return jsonify(most_active_dict)
 
 @app.route("/api/v1.0/trip/start")
 def get_t_start(start):
