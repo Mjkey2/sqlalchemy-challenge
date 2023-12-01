@@ -140,6 +140,7 @@ def tobs():
 @app.route("/api/v1.0/trip/start")
 def get_t_start(start):
     session = Session(engine)
+    #calculate min avg and max temperature for specified start date
     queryresult = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
         filter(Measurement.date >= start).all()
     session.close()
@@ -158,6 +159,7 @@ def get_t_start(start):
 @app.route('/api/v1.0/<start>/<stop>')
 def get_t_start_stop(start,stop):
     session = Session(engine)
+    #calculate min avg and max temperature for specified start and end dates
     queryresult = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
         filter(Measurement.date >= start).filter(Measurement.date <= stop).all()
     session.close()
